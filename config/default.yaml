@@ -1,0 +1,27 @@
+defaults:
+  - data
+  - model
+  - train
+  - logger
+  - _self_
+  - override hydra/hydra_logging: disabled # disable hydra_logging
+  - override hydra/job_logging: disabled # disable job_logging
+
+hydra:
+  output_subdir: null # disable output .hydra
+  run:
+    dir: . # disable change dir, if not: ${hydra:runtime.cwd}
+  job:
+    chdir: false # disable change dir
+    # e.g., override_dirname: batch_size=8,16,lr=1e-3,1e-4
+    config:
+      override_dirname:
+        kv_sep: '='
+        item_sep: ','
+        exclude_keys: []
+  sweep:
+    dir: ${logger.root_dir}/${exp_name}
+    subdir: ${hydra.job.num}:${hydra.job.override_dirname}
+
+logger:
+  dir: ${logger.root_dir}/${exp_name}/${hydra:job.num}:${hydra:job.override_dirname}

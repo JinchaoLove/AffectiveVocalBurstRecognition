@@ -1,0 +1,19 @@
+seed: 42
+trainer:
+  warm_start: 1
+  min_epochs: 10 # used for early_stop
+  max_epochs: ${max_epochs}
+  batch_size: ${batch_size}
+  accumulate_steps: ${accumulate_steps}
+  grad_clip_value: 2
+  ddp_test: true
+  verbose: 1
+  # summary__verbose: false
+  summary__depth: 6
+  seed: ${seed}
+  log_interval: 1 # evaluate interval
+lite:
+  accelerator: auto
+  devices: auto
+  strategy: ddp
+debug: 0

@@ -1,0 +1,11 @@
+# finetuning phases for wav2vec2.0-xlsr (for from finetuning_scheduler import FinetuningScheduler, not used)
+0:
+  params:
+  - feature_extractor.wav2vec2.wav2vec2.feature_extractor.conv_layers.*
+  - feature_extractor.wav2vec2.wav2vec2.feature_projection.layer_norm.*
+  - feature_extractor.wav2vec2.wav2vec2.feature_projection.projection.*
+  - feature_extractor.wav2vec2.wav2vec2.encoder.pos_conv_embed.conv.*
+  - feature_extractor.wav2vec2.wav2vec2.encoder.layer_norm.*
+1:
+  params:
+  - feature_extractor.wav2vec2.wav2vec2.encoder.layers.{0,23}.(attention|layer_norm|feed_forward|final_layer_norm).*

@@ -1,0 +1,12 @@
+logger:
+  root_dir: ../AVBoutputs
+  monitor: val_loss # val_loss, val_ccc
+  min_epochs: ${trainer.min_epochs} # force run in the start in earlystop
+  earlystop: ${earlystop}
+  scheduler: ${scheduler}
+  T_max: ${T_max}
+  enable_wandb: 2
+  wandb:
+    wbmode: offline
+    project: MAD
+    exp_name: ${exp_name}-${now:%m%d_%H%M}

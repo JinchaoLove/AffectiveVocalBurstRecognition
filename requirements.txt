@@ -1,0 +1,20 @@
+# Note: The original project is implemented before the date of September 14, 2022
+#       Specify package versions if needed.
+datetime
+einops
+joblib
+hydra_core
+iterative-stratification
+librosa
+numpy
+pandas
+pytorch_lightning
+scikit_learn
+scipy
+SoundFile
+rich
+torchinfo
+tqdm
+transformers
+wandb
+git+https://github.com/facebookresearch/WavAugment.git

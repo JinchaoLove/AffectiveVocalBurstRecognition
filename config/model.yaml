@@ -1,0 +1,80 @@
+module:
+  # feature_extractor:
+  #     _target_: models.model.Wav2vecWrapper
+  # feature_extractor:
+  #   _target_: models.ssl_trans.Upstream
+  #   # _target_: models.ssl_trans.Featurizer
+  model:
+    _target_: models.ssl_trans.MTL
+    # models.model.DirectRegressor, ChainModel, BiChain, EmbAttnRegressor, AttnRegressor
+  upstream: Upstream
+  proj_dim: 128
+  shared_dim: 64
+  tasks: '' # country, voc, valence, arousal
+  name_path: ehcalabres/wav2vec2-lg-xlsr-en-speech-emotion-recognition
+  # name_path: superb/hubert-large-superb-er
+  # name_path: microsoft/wavlm-large
+  # name_path: facebook/wav2vec2-conformer-rope-large-960h-ft
+  feat_type: null
+  output_stage: 1
+  weighted_sum: 1
+  dropout: 0.25
+  mode: pf # f: frozen, pf: partial frozen, other: fully finetune
+  chain_strategy: gt # pred, gt, ss
+  # for init model
+  sr: ${sr}
+  max_wav_length: ${max_wav_length}
+  task: ${task}
+
+ckpt: null
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0913_2352/wandb/offline-run-20220913_235305-2lwz2ggt/files/best_model.pt
+# wavlm-large chain
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL2-0914_1725/wandb/offline-run-20220914_172718-2jv2nbko/files/best_model.pt
+# wavlm-large: 0.6698
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL2-0914_2342/wandb/offline-run-20220914_234355-1m3y6du7/files/best_model.pt
+# wavlm-large culture: 
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0915_1645/wandb/offline-run-20220915_164628-11o9sjyt/files/best_model.pt
+# w2v2-lg
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL2-0915_0244/wandb/offline-run-20220915_024533-1g9vdiqq/files/best_model.pt
+# w2v2-lg culture: 0.5757
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL2-0915_1127/wandb/offline-run-20220915_112813-234nlwxo/files/best_model.pt
+# w2v2-lg culture: 0.5834
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0915_1518/wandb/offline-run-20220915_152032-12b325am/files/best_model.pt
+# w2v2-lg culture: 0.5928
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0915_1746/wandb/offline-run-20220915_174744-2s007oqz/files/best_model.pt
+# w2v2-lg culture: 0.6232
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL/wandb/offline-run-20221001_231316-nh816yb2/files/last_model.pt
+
+# w2v2-lg culture: 0.6200
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0915_1746/wandb/offline-run-20220915_174744-2s007oqz/files/best_model.pt
+# w2v2-lg high: 0.7299
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0915_1912/wandb/offline-run-20220915_191326-3ikejung/files/best_model.pt
+# 0.74154
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0915_2118/wandb/offline-run-20220915_212008-13wt0jui/files/last_model.pt
+# 0.7575
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0915_2246/wandb/offline-run-20220915_224834-183kpm1m/files/best_model.pt
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0916_0713/wandb/offline-run-20220916_071507-sgcu2a45/files/best_model.pt
+# culture: 0.6519
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0916_0713/wandb/offline-run-20220916_071507-sgcu2a45/files/best_model.pt
+# two (no val): 0.6962
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0916_1143/wandb/offline-run-20220916_114428-15yeaozz/files/best_model.pt
+# ckpt: ../AVBoutputs/models.ssl_trans.MTL-0916_1340/wandb/offline-run-20220916_134119-3rdnybju/files/best_model.pt
+
+criterion:
+  _target_: models.loss.BaselineLoss
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: ${lr}
+  lr_ft: 0
+  weight_decay: !!float 1e-3
+batch_size: 1024
+accumulate_steps: 1
+lr: !!float 1e-3
+# lr: !!float 3e-4
+ft_ratio: 100
+scheduler: 2
+T_max: 2
+max_epochs: 100
+earlystop: 20
+exp_name: ${module.model._target_}
+task: culture # high, culture

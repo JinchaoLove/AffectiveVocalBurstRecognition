@@ -1,0 +1,21 @@
+data_dir: ../A-VB
+split_dir: ./filelists
+wav: true
+sr: 16000
+max_wav_length: 3
+wav_copy: false
+wav_select: start
+emotion_label_order: default # default, h2l, f2r
+augment:
+  enable: true
+  pitch: 300
+  rate: 2
+dataset:
+  _target_: dataset.AVBDataset
+iterator:
+  pin_memory: true
+  num_workers: 12
+  drop_last: true
+
+cv_fold: 0
+n_splits: 5
